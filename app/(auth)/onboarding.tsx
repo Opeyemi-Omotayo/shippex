@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useCallback, useState, useEffect } from "react";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { View, Image, StyleSheet } from "react-native";
 import * as Animatable from "react-native-animatable";
 import Button from "@/components/Button";
 import { primary } from "@/constants/Colors";
+import CustomBottomSheet from "@/components/CustomBottomSheet";
+import Login from "./login";
 
 const Onboarding = () => {
   const [animationDone, setAnimationDone] = useState(false);
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
     setTimeout(() => {
       setAnimationDone(true);
     }, 1600);
+  }, []);
+
+  const openBottomSheet = useCallback(() => {
+    bottomSheetRef.current?.expand();
   }, []);
 
   if (!animationDone) {
@@ -46,11 +54,14 @@ const Onboarding = () => {
       >
         <Button
           title="Login"
-          onPress={() => alert("clicked")}
+          onPress={openBottomSheet}
           containerStyle={styles.btnContainer}
           textStyle={styles.btnText}
         />
       </Animatable.View>
+      <CustomBottomSheet ref={bottomSheetRef} snaps={["90%"]}>
+        <Login />
+      </CustomBottomSheet>
     </View>
   );
 };

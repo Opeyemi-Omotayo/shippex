@@ -1,48 +1,52 @@
-import React, { FC } from "react";
-import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from "react-native";
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
 
 interface ButtonProps {
-  disabled?: boolean;
   title: string;
   onPress: () => void;
-  loading?: boolean;
-  containerStyle?: ViewStyle;
-  textStyle?: TextStyle;
+  containerStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  disabled?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({
-  disabled,
+const Button: React.FC<ButtonProps> = ({
   title,
   onPress,
-  loading,
   containerStyle,
   textStyle,
-  ...rest
+  disabled,
 }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      disabled={disabled || loading}
-      style={[styles.buttonContainer, containerStyle]}
-      {...rest}
+      style={[styles.button, containerStyle]}
+      disabled={disabled}
     >
-      <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+      <Text style={[styles.text, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );
 };
 
-export default Button;
-
 const styles = StyleSheet.create({
-  buttonContainer: {
+  button: {
     paddingVertical: 12,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%'
+    borderRadius: 9,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
-  buttonText: {
+  text: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });
+
+export default Button;
