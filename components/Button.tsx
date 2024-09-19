@@ -1,20 +1,24 @@
+import { primary } from "@/constants/Colors";
 import React from "react";
 import {
-  View,
   Text,
   TouchableOpacity,
   StyleSheet,
   StyleProp,
   ViewStyle,
   TextStyle,
+  ActivityIndicator,
 } from "react-native";
 
 interface ButtonProps {
   title: string;
-  onPress: () => void;
+  onPress?: () => void;
   containerStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   disabled?: boolean;
+  loading?: boolean;
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -23,6 +27,9 @@ const Button: React.FC<ButtonProps> = ({
   containerStyle,
   textStyle,
   disabled,
+  loading,
+  iconLeft,
+  iconRight,
 }) => {
   return (
     <TouchableOpacity
@@ -30,7 +37,13 @@ const Button: React.FC<ButtonProps> = ({
       style={[styles.button, containerStyle]}
       disabled={disabled}
     >
-      <Text style={[styles.text, textStyle]}>{title}</Text>
+      {iconLeft}
+      {loading ? (
+        <ActivityIndicator color="white" />
+      ) : (
+        <Text style={[styles.text, textStyle]}>{title}</Text>
+      )}
+      {iconRight}
     </TouchableOpacity>
   );
 };
