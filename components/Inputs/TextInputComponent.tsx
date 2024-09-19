@@ -2,6 +2,7 @@ import { TextInput, TextInputProps, StyleSheet, View, Text, useColorScheme } fro
 import React, { FC, useState } from 'react';
 import * as Animatable from 'react-native-animatable';
 import { Colors, primary } from '@/constants/Colors';
+import { ThemedText } from '../ThemedText';
 
 interface TextInputPropsExtended extends TextInputProps {
   errorText?: string;
@@ -9,6 +10,7 @@ interface TextInputPropsExtended extends TextInputProps {
   whiteBg?: boolean;
   rightText?: string;
   onTextPress?: () => void;
+  value: string;
 }
 
 const TextInputComponent: FC<TextInputPropsExtended> = ({
@@ -31,28 +33,16 @@ const TextInputComponent: FC<TextInputPropsExtended> = ({
     <Animatable.View
       animation={!!errorText ? 'shake' : undefined} 
       duration={500}
-      style={styles.container}
+      style={[styles.container, focus && styles.focusedStyle, !!errorText && styles.errorStyle, {backgroundColor: colorScheme === "dark" ? "#303030" : "#f1f1f1"}]}
     >
-      {title && (
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{title}</Text>
-          {rightText && (
-            <Text onPress={onTextPress} style={styles.rightText}>
-              {rightText}
-            </Text>
-          )}
-        </View>
-      )}
+      {value.length > 0 && <ThemedText lightColor='gray' style={styles.text}>Username / Email</ThemedText>}
       <TextInput
         value={value}
         onChangeText={onChangeText}
         style={[
           styles.input,
           multiline && styles.multiline,
-          focus && styles.focusedStyle,
-          !!errorText && styles.errorStyle,
-          whiteBg && styles.whiteBg,
-          {backgroundColor: colorScheme === "dark" ? "#303030" : "#f1f1f1"}
+          whiteBg && styles.whiteBg
         ]}
         placeholderTextColor="#8e8e8e"
         onFocus={e => {
@@ -76,6 +66,9 @@ export default TextInputComponent;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    height: 60,
+    borderRadius: 5,
+    justifyContent: 'center',
   },
   titleContainer: {
     flexDirection: 'row',
@@ -92,14 +85,14 @@ const styles = StyleSheet.create({
     color: '#007AFF',
     textDecorationLine: 'underline',
   },
+  text: {
+    paddingLeft: 10,
+    fontSize: 14
+  },
   input: {
-    width: '100%',
-    height: 50,
-    paddingHorizontal: 10,
     fontSize: 14,
     color: Colors.primary,
-    borderRadius: 5,
-    justifyContent: 'center',
+    paddingHorizontal: 10,
   },
   multiline: {
     height: 100,

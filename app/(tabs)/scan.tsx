@@ -9,7 +9,7 @@ const Scan = () => {
     <ThemedView lightColor="#fff" style={styles.container}>
       <Animatable.View
         animation="rubberBand"
-        duration={4000}
+        duration={2500}
         iterationCount="infinite"
       >
         <ThemedText style={styles.text}>Scan is coming soon!</ThemedText>

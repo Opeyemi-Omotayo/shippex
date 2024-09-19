@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, useColorScheme } from "react-native";
 import React, { forwardRef, useCallback, useMemo } from "react";
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -6,6 +6,7 @@ import BottomSheet, {
   useBottomSheet,
 } from "@gorhom/bottom-sheet";
 import { Colors, primary } from "@/constants/Colors";
+import { ThemedText } from "./ThemedText";
 export type Ref = BottomSheet;
 
 interface Props {
@@ -21,7 +22,6 @@ interface Props {
 
 const CloseBtn = () => {
   const { close } = useBottomSheet();
-
   return (
     <TouchableOpacity style={styles.btn} onPress={() => close()}>
       <Text style={styles.btnText}>Cancel</Text>
@@ -45,6 +45,7 @@ const CustomBottomSheet = forwardRef<Ref, Props>(
     ref,
   ) => {
     const snapPoints = useMemo(() => snaps, [snaps]);
+    const colorScheme = useColorScheme();
     const renderBackdrop = useCallback(
       (props: any) => (
         <BottomSheetBackdrop
@@ -65,8 +66,8 @@ const CustomBottomSheet = forwardRef<Ref, Props>(
         backdropComponent={renderBackdrop}
         {...props}
       >
-        <BottomSheetView style={styles.contentContainer}>
-          <Text style={styles.title}>{title}</Text>
+        <BottomSheetView style={[styles.contentContainer,{ backgroundColor: colorScheme === 'dark' ? "#151718" : 'white', borderTopLeftRadius: colorScheme === 'dark' ? 15 : 0, borderTopRightRadius: colorScheme === 'dark' ? 15 : 0  }]}>
+          <ThemedText style={styles.title}>{title}</ThemedText>
           <View
             style={[
               styles.headerContainer,
@@ -100,6 +101,7 @@ CustomBottomSheet.displayName = "CustomBottomSheetContext";
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
+    paddingTop: 10
   },
   headerContainer: {
     width: "100%",

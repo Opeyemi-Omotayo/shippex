@@ -18,7 +18,7 @@ import { ThemedText } from "@/components/ThemedText";
 import Toast from "react-native-toast-message";
 
 const Login = () => {
-  const [signIn, { isLoading }] = useLoginMutation();
+  const [logIn, { isLoading }] = useLoginMutation();
   const router = useRouter();
   const {
     control,
@@ -41,7 +41,7 @@ const Login = () => {
   }, [formValues]);
 
   const logUserIn = async () => {
-    await signIn({
+    await logIn({
       usr: "test@brandimic.com",
       pwd: "testy123@",
     })
@@ -77,29 +77,6 @@ const Login = () => {
             Please enter your First, Last name and your phone number in order to
             register
           </ThemedText>
-
-          {/* <View style={styles.space}>
-          <Controller
-            name="url"
-            control={control}
-            rules={{
-              required: {
-                message: "URL is required",
-                value: true,
-              },
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInputComponent
-                value={value}
-                onBlur={onBlur}
-                errorText={errors.url?.message}
-                onChangeText={onChange}
-                placeholder="URL"
-              />
-            )}
-          />
-        </View> */}
-
           <View style={styles.space}>
             <Controller
               name="username"
@@ -116,7 +93,7 @@ const Login = () => {
                   onBlur={onBlur}
                   errorText={errors.username?.message}
                   onChangeText={onChange}
-                  placeholder="Username"
+                  placeholder="Username / Email"
                 />
               )}
             />
@@ -181,6 +158,7 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: "700",
     marginBottom: 10,
+    lineHeight:35
   },
   subtitle: {
     fontSize: 17,

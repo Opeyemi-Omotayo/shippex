@@ -9,13 +9,15 @@ import {
 } from "react-native";
 import React, { FC, useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
-import * as Animatable from 'react-native-animatable';
+import * as Animatable from "react-native-animatable";
 import { primary } from "@/constants/Colors";
+import { ThemedText } from "../ThemedText";
 
 export interface InputProps extends TextInputProps {
   errorText?: string;
   title?: string;
   whiteBg?: boolean;
+  value: string;
 }
 
 const PasswordInputComponent: FC<InputProps> = ({
@@ -42,21 +44,28 @@ const PasswordInputComponent: FC<InputProps> = ({
   return (
     <Animatable.View
       animation={!!errorText ? "shake" : undefined}
-      duration={1000}
-      iterationCount={1}
-      style={styles.container}
+      duration={500}
+      style={[
+        styles.container,
+        focus && styles.focusedStyle,
+        !!errorText && styles.errorStyle,
+        { backgroundColor: colorScheme === "dark" ? "#303030" : "#f1f1f1" },
+      ]}
     >
-      {title && <Text style={styles.title}>{title}</Text>}
-      <View style={[styles.inputContainer, whiteBg && styles.whiteBg, {backgroundColor: colorScheme === "dark" ? "#303030" : "#f1f1f1"} ]}>
+      {value.length > 0 && (
+        <ThemedText lightColor='gray' style={styles.text}>Password</ThemedText>
+      )}
+      <View style={[styles.inputContainer, whiteBg && styles.whiteBg]}>
         <TextInput
           value={value}
           onChangeText={onChangeText}
           style={[
             styles.textInput,
-            focus && styles.focusedInput,
-            !!errorText && styles.errorInput,
             whiteBg && styles.whiteBg,
-            {backgroundColor: colorScheme === "dark" ? "#303030" : "#f1f1f1"}
+            {
+              backgroundColor:
+                colorScheme === "dark" ? "#303030" : "#f1f1f1",
+            },
           ]}
           placeholder={placeholder}
           onFocus={(e) => {
@@ -71,22 +80,8 @@ const PasswordInputComponent: FC<InputProps> = ({
           secureTextEntry={visible}
           {...rest}
         />
-        <View style={styles.iconView}>
-          <TouchableOpacity
-            onPress={toggleShowPassword}
-            style={styles.iconPressable}
-          >
-            {
-              <Entypo
-                name={showPassword ? "eye" : "eye-with-line"}
-                size={20}
-                color= {colorScheme === "dark" ? "white" : "black"}
-              />
-            }
-          </TouchableOpacity>
-        </View>
       </View>
-      {errorText && (<Text style={styles.errorText}>* {errorText}</Text>)}
+      {errorText && <Text style={styles.errorText}>* {errorText}</Text>}
     </Animatable.View>
   );
 };
@@ -96,53 +91,46 @@ export default PasswordInputComponent;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-  },
-  title: {
-    fontSize: 13,
-    marginBottom: 8,
+    height: 60,
+    borderRadius: 5,
+    justifyContent: "center",
   },
   inputContainer: {
     width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
     flexDirection: "row",
-    height: 50,
+    alignItems: "center",
+    paddingHorizontal: 10,
   },
   textInput: {
-    color: primary,
-    width: "85%",
-    height: "100%",
-    paddingHorizontal: 10,
+    flex: 1,
     fontSize: 14,
-    borderRadius: 4,
+    color: primary,
+    paddingVertical: 0,
   },
-  focusedInput: {
-    borderColor: "#4A90E2",
+  text: {
+    paddingLeft: 10,
+    fontSize: 12,
+  },
+  focusedStyle: {
+    borderColor: primary,
     borderWidth: 1,
   },
-  errorInput: {
-    borderColor: "#FF0000",
+  errorStyle: {
+    borderColor: "red",
     borderWidth: 1,
-  },
-  whiteBg: {
-    backgroundColor: "#FFFFFF",
-  },
-  iconView: {
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 10,
-  },
-  iconPressable: {
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
   },
   errorText: {
     fontSize: 11,
-    color: 'red',
+    color: "red",
     marginTop: 4,
     marginLeft: 4,
+  },
+  whiteBg: {
+    backgroundColor: "#fff",
+  },
+  iconPressable: {
+    paddingHorizontal: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

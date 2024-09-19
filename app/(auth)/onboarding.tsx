@@ -24,11 +24,11 @@ const Onboarding = () => {
   if (!animationDone) {
     return (
       <View style={styles.whiteContainer}>
-        <Animatable.View animation="bounceOut" duration={1500}>
+        <Animatable.View animation="zoomIn" duration={1500}>
           <Image
             source={require("../../assets/images/icon1.png")}
             style={styles.largeIcon}
-            resizeMode="cover"
+            resizeMode="contain"
           />
         </Animatable.View>
       </View>
@@ -38,7 +38,7 @@ const Onboarding = () => {
   return (
     <View style={styles.blueContainer}>
       <Animatable.View
-        animation="slideInRight"
+        animation="lightSpeedIn"
         duration={1500}
         style={styles.iconTextContainer}
       >
@@ -80,15 +80,15 @@ const styles = StyleSheet.create({
     backgroundColor: primary,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
   },
   largeIcon: {
-    width: 70,
-    height: 70,
+    width: 150,
+    height: 230,
   },
   smallIcon: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 36,
     resizeMode: "contain",
   },
   iconTextContainer: {

@@ -9,7 +9,7 @@ const Wallet = () => {
     <ThemedView lightColor="#fff" style={styles.container}>
       <Animatable.View
         animation="rubberBand"
-        duration={4000}
+        duration={2500}
         iterationCount="infinite"
       >
         <ThemedText style={styles.text}>Wallet is coming soon!</ThemedText>
