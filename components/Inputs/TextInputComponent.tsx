@@ -1,7 +1,7 @@
-import { TextInput, TextInputProps, StyleSheet, View, Text } from 'react-native';
+import { TextInput, TextInputProps, StyleSheet, View, Text, useColorScheme } from 'react-native';
 import React, { FC, useState } from 'react';
 import * as Animatable from 'react-native-animatable';
-import { primary } from '@/constants/Colors';
+import { Colors, primary } from '@/constants/Colors';
 
 interface TextInputPropsExtended extends TextInputProps {
   errorText?: string;
@@ -25,6 +25,7 @@ const TextInputComponent: FC<TextInputPropsExtended> = ({
   ...rest
 }) => {
   const [focus, setFocus] = useState(false);
+  const colorScheme = useColorScheme();
 
   return (
     <Animatable.View
@@ -51,6 +52,7 @@ const TextInputComponent: FC<TextInputPropsExtended> = ({
           focus && styles.focusedStyle,
           !!errorText && styles.errorStyle,
           whiteBg && styles.whiteBg,
+          {backgroundColor: colorScheme === "dark" ? "#303030" : "#f1f1f1"}
         ]}
         placeholderTextColor="#8e8e8e"
         onFocus={e => {
@@ -95,8 +97,7 @@ const styles = StyleSheet.create({
     height: 50,
     paddingHorizontal: 10,
     fontSize: 14,
-    color: '#000',
-    backgroundColor: '#f1f1f1',
+    color: Colors.primary,
     borderRadius: 5,
     justifyContent: 'center',
   },

@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  useColorScheme,
 } from "react-native";
 import React, { FC, useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -31,6 +32,7 @@ const PasswordInputComponent: FC<InputProps> = ({
   const [focus, setFocus] = useState(false);
   const [visible, setVisible] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const colorScheme = useColorScheme();
 
   const toggleShowPassword = () => {
     setVisible(!visible);
@@ -45,7 +47,7 @@ const PasswordInputComponent: FC<InputProps> = ({
       style={styles.container}
     >
       {title && <Text style={styles.title}>{title}</Text>}
-      <View style={[styles.inputContainer, whiteBg && styles.whiteBg]}>
+      <View style={[styles.inputContainer, whiteBg && styles.whiteBg, {backgroundColor: colorScheme === "dark" ? "#303030" : "#f1f1f1"} ]}>
         <TextInput
           value={value}
           onChangeText={onChangeText}
@@ -54,6 +56,7 @@ const PasswordInputComponent: FC<InputProps> = ({
             focus && styles.focusedInput,
             !!errorText && styles.errorInput,
             whiteBg && styles.whiteBg,
+            {backgroundColor: colorScheme === "dark" ? "#303030" : "#f1f1f1"}
           ]}
           placeholder={placeholder}
           onFocus={(e) => {
@@ -77,7 +80,7 @@ const PasswordInputComponent: FC<InputProps> = ({
               <Entypo
                 name={showPassword ? "eye" : "eye-with-line"}
                 size={20}
-                color="black"
+                color= {colorScheme === "dark" ? "white" : "black"}
               />
             }
           </TouchableOpacity>
@@ -102,7 +105,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5F5F5",
     borderRadius: 4,
     flexDirection: "row",
     height: 50,
@@ -113,7 +115,6 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingHorizontal: 10,
     fontSize: 14,
-    backgroundColor: "#F5F5F5",
     borderRadius: 4,
   },
   focusedInput: {
