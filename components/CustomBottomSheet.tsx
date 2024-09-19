@@ -5,7 +5,7 @@ import BottomSheet, {
   BottomSheetView,
   useBottomSheet,
 } from "@gorhom/bottom-sheet";
-import { primary } from "@/constants/Colors";
+import { Colors, primary } from "@/constants/Colors";
 export type Ref = BottomSheet;
 
 interface Props {
@@ -71,8 +71,8 @@ const CustomBottomSheet = forwardRef<Ref, Props>(
             style={[
               styles.headerContainer,
               {
-                borderBottomWidth: showHeaderBorder ? 2 : 0,
-                borderBottomColor: primary,
+                borderBottomWidth: showHeaderBorder ? 0.5 : 0,
+                borderBottomColor: Colors.lilac600,
               },
             ]}
           >
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     width: "100%",
     paddingTop: 5,
-    paddingBottom: 10,
+    paddingBottom: 14,
     paddingHorizontal: 10,
     justifyContent: "space-between",
     alignItems: "center",
@@ -115,6 +115,8 @@ const styles = StyleSheet.create({
     top: 2,
     width: "100%",
     textAlign: "center",
+    fontSize: 16,
+    fontWeight: "600"
   },
   btn: {
     flexDirection: "row",
