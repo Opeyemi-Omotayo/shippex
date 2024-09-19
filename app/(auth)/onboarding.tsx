@@ -24,11 +24,11 @@ const Onboarding = () => {
   if (!animationDone) {
     return (
       <View style={styles.whiteContainer}>
-        <Animatable.View animation="flipOutX" duration={1500}>
+        <Animatable.View animation="bounceOut" duration={1500}>
           <Image
             source={require("../../assets/images/icon1.png")}
             style={styles.largeIcon}
-            resizeMode="contain"
+            resizeMode="cover"
           />
         </Animatable.View>
       </View>
