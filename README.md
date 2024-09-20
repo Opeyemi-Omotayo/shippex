@@ -33,6 +33,17 @@ This is a simple shipment tracking app created with React Native [Expo](https://
 - state was managed with RTK Query
 
 
+6. Animation
+
+- smooth animation ⚡️
+
+
+## Credentials 🛠️
+
+- Email: test@brandimic.com
+- Password: testy123@
+
+
 ## Technologies 🛠️
 
 - expo
