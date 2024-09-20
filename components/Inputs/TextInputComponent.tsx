@@ -30,7 +30,8 @@ const TextInputComponent: FC<TextInputPropsExtended> = ({
   const colorScheme = useColorScheme();
 
   return (
-    <Animatable.View
+    <>
+        <Animatable.View
       animation={!!errorText ? 'shake' : undefined} 
       duration={500}
       style={[styles.container, focus && styles.focusedStyle, !!errorText && styles.errorStyle, {backgroundColor: colorScheme === "dark" ? "#303030" : "#f1f1f1"}]}
@@ -56,8 +57,9 @@ const TextInputComponent: FC<TextInputPropsExtended> = ({
         multiline={multiline}
         {...rest}
       />
-      {errorText && <Text style={styles.errorText}>{`* ${errorText}`}</Text>}
-    </Animatable.View>
+   </Animatable.View>
+          {errorText && <Text style={styles.errorText}>{`* ${errorText}`}</Text>}
+</>
   );
 };
 

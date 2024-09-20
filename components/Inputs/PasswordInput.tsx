@@ -42,7 +42,8 @@ const PasswordInputComponent: FC<InputProps> = ({
   };
 
   return (
-    <Animatable.View
+    <>
+     <Animatable.View
       animation={!!errorText ? "shake" : undefined}
       duration={500}
       style={[
@@ -81,8 +82,9 @@ const PasswordInputComponent: FC<InputProps> = ({
           {...rest}
         />
       </View>
-      {errorText && <Text style={styles.errorText}>* {errorText}</Text>}
     </Animatable.View>
+    {errorText && <Text style={styles.errorText}>* {errorText}</Text>}
+    </>
   );
 };
 

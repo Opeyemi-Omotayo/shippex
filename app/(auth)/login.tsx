@@ -3,7 +3,6 @@ import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "expo-router";
 import {
   StyleSheet,
-  Text,
   View,
   KeyboardAvoidingView,
   Platform,
@@ -16,6 +15,7 @@ import { useLoginMutation } from "@/store/services/api";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import Toast from "react-native-toast-message";
+import { LoginData } from "@/types";
 
 const Login = () => {
   const [logIn, { isLoading }] = useLoginMutation();
@@ -27,8 +27,8 @@ const Login = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      username: "test@brandimic.com",
-      password: "testy123@",
+      username: "",
+      password: "",
     },
   });
 
@@ -40,10 +40,10 @@ const Login = () => {
     setIsInputFilled(formValues.username !== "" && formValues.password !== "");
   }, [formValues]);
 
-  const logUserIn = async () => {
+  const logUserIn = async (data: LoginData) => {
     await logIn({
-      usr: "test@brandimic.com",
-      pwd: "testy123@",
+      usr: data.username,
+      pwd: data.password,
     })
       .unwrap()
       .then((payload) => {
@@ -86,6 +86,10 @@ const Login = () => {
                   message: "Username is required",
                   value: true,
                 },
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Invalid email format",
+                },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInputComponent
@@ -107,6 +111,10 @@ const Login = () => {
                 required: {
                   message: "Password is required",
                   value: true,
+                },
+                minLength: {
+                  value: 5,
+                  message: "Password must be at least 5 characters long",
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -158,7 +166,7 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: "700",
     marginBottom: 10,
-    lineHeight: 35
+    lineHeight: 35,
   },
   subtitle: {
     fontSize: 17,
@@ -175,7 +183,7 @@ const styles = StyleSheet.create({
   },
   btnEnabled: {
     backgroundColor: primary,
-    paddingVertical:18
+    paddingVertical: 18,
   },
   btnDisabled: {
     backgroundColor: "#D3D3D3",
