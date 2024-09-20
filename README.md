@@ -1,6 +1,42 @@
-# Welcome to your Expo app 👋
+# Shippex 🚚
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a simple shipment tracking app created with [Expo](https://expo.dev) , which allows drivers to manage their shipment status.
+
+## Features:
+
+1. Splash Screen: 
+
+- a splash screen with animation based on the provided Figma file
+
+2. Login Screen: 
+
+- a login screen with validation as required.
+- Include fields for username/email and password.
+
+3. Shipment List Screen: 
+
+- a list of shipments with their status (Received, Canceled, etc.).
+- Used  flat list to display the shipments.
+- pull-to-refresh functionality.
+- search for shipment by barcode
+- filter the shipment based on the shipment status
+
+4. Dark Mode
+-All screens dark mode are implemented, Just switch your mobile phone settings to dark mode to see the beauty ☺️
+
+5. State Management
+- state was managed with 
+
+## Technologies 🛠️
+
+- expo
+- @gorhom/bottom-sheet
+- axios
+- RTK Query
+- react-hook-form
+- react-native-toast-message
+
+
 
 ## Get started
 
