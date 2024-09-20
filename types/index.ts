@@ -122,3 +122,8 @@ export interface ShipmentStatusListRequest {
 export interface ShipmentStatusListResponse {
   message: ShipmentStatus[];
 }
+
+export interface LoginData {
+  username: string;
+  password: string;
+}
