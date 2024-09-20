@@ -26,7 +26,7 @@ This is a simple shipment tracking app created with React Native [Expo](https://
 
 4. Dark Mode
 
--All screens dark mode are implemented, Just switch your mobile phone settings to dark mode to see the beauty ☺️
+- All screens dark mode are implemented, Just switch your mobile phone settings to dark mode to see the beauty ☺️
 
 
 5. State Management
