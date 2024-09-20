@@ -1,5 +1,5 @@
 import { View, StyleSheet, FlatList } from "react-native";
-import React, { memo, useState } from "react";
+import React, { memo, useState, useCallback } from "react";
 import { Shipment as ShipmentType } from "@/types";
 import { SHIPMENT_TITLE } from "@/constants/Title";
 import Shipment from "./Shipment";
@@ -13,22 +13,29 @@ interface ShipmentsProps {
   isRefetching: boolean;
 }
 
-const MemoizedShipment = memo(Shipment);
+const MemoizedShipment = memo(Shipment, (prevProps, nextProps) => {
+  return prevProps.shipment === nextProps.shipment && prevProps.markAll === nextProps.markAll;
+});
 
 const Shipments = ({ shipments, refetch, isRefetching }: ShipmentsProps) => {
   const [markAll, setMarkAll] = useState(false);
 
-  const toggleMarkBtn = () => {
-    setMarkAll(!markAll);
-  };
+  const toggleMarkBtn = useCallback(() => {
+    setMarkAll((prev) => !prev);
+  }, []);
 
-  const renderItem = ({
-    item,
+  const renderItem = useCallback(
+    ({ item, index }: { item: ShipmentType; index: number }) => (
+      <MemoizedShipment shipment={item} key={`${item.idx}-${index}`} markAll={markAll} />
+    ),
+    [markAll]
+  );
+
+  const getItemLayout = (_: any, index: number) => ({
+    length: 100, 
+    offset: 100 * index,
     index,
-  }: {
-    item: ShipmentType;
-    index: number;
-  }) => <MemoizedShipment shipment={item} key={`${item.idx}-${index}`} markAll={markAll} />;
+  });
 
   return (
     <View style={styles.container}>
@@ -51,6 +58,11 @@ const Shipments = ({ shipments, refetch, isRefetching }: ShipmentsProps) => {
           keyExtractor={(item) => `${item.idx}-${item.name}`}
           onRefresh={refetch}
           refreshing={isRefetching}
+          initialNumToRender={10} // Render fewer items initially
+          maxToRenderPerBatch={10} // Limits the rendering per batch
+          updateCellsBatchingPeriod={50} // Adjusts the batching period
+          windowSize={21} // Controls the number of items to render offscreen
+          getItemLayout={getItemLayout} // Helps with layout calculation
         />
       )}
     </View>

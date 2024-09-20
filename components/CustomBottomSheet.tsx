@@ -101,7 +101,7 @@ CustomBottomSheet.displayName = "CustomBottomSheetContext";
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
-    paddingTop: 10
+    paddingTop: 10,
   },
   headerContainer: {
     width: "100%",
