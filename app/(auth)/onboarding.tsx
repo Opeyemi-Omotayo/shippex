@@ -1,27 +1,53 @@
-import React, { useRef, useCallback, useState, useEffect } from "react";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { View, Image, StyleSheet } from "react-native";
+import React, { useRef, useState, useEffect, useCallback } from "react";
+import { View, Image, StyleSheet, Animated, Dimensions } from "react-native";
 import * as Animatable from "react-native-animatable";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import Button from "@/components/Button";
 import { primary } from "@/constants/Colors";
 import CustomBottomSheet from "@/components/CustomBottomSheet";
 import Login from "./login";
 
+const { width } = Dimensions.get("window"); 
+
 const Onboarding = () => {
-  const [animationDone, setAnimationDone] = useState(false);
+  const [stage, setStage] = useState(1); 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const logoScale = useRef(new Animated.Value(1)).current; 
+  const backgroundColor = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    setTimeout(() => {
-      setAnimationDone(true);
-    }, 1600);
-  }, []);
+    if (stage === 1) {
+      setTimeout(() => {
+        setStage(2); 
+      }, 1500); 
+    } else if (stage === 2) {
+      Animated.parallel([
+        Animated.timing(logoScale, {
+          toValue: width / 150, 
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(backgroundColor, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: false,
+        }),
+      ]).start(() => {
+        setStage(3); 
+      });
+    }
+  }, [stage]);
 
   const openBottomSheet = useCallback(() => {
     bottomSheetRef.current?.expand();
   }, []);
 
-  if (!animationDone) {
+  const interpolatedBackgroundColor = backgroundColor.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["#FFFFFF", primary], 
+  });
+
+  if (stage === 1) {
     return (
       <View style={styles.whiteContainer}>
         <Animatable.View animation="zoomIn" duration={1500}>
@@ -32,6 +58,28 @@ const Onboarding = () => {
           />
         </Animatable.View>
       </View>
+    );
+  }
+
+  if (stage === 2) {
+    return (
+      <Animated.View
+        style={[
+          styles.stageContainer,
+          { backgroundColor: interpolatedBackgroundColor },
+        ]}
+      >
+        <Animated.Image
+          source={require("../../assets/images/icon1.png")}
+          style={[
+            styles.logoIcon,
+            {
+              transform: [{ scale: logoScale }], 
+            },
+          ]}
+          resizeMode="contain"
+        />
+      </Animated.View>
     );
   }
 
@@ -75,6 +123,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  stageContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   blueContainer: {
     flex: 1,
     backgroundColor: primary,
@@ -85,6 +138,10 @@ const styles = StyleSheet.create({
   largeIcon: {
     width: 150,
     height: 230,
+  },
+  logoIcon: {
+    width: 150,
+    height: 150,
   },
   smallIcon: {
     width: 150,
